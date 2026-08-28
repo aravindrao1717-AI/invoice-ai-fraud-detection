@@ -6,8 +6,6 @@ A compact Streamlit web application for explainable invoice fraud/risk assessmen
 
 ## Live Demo
 
-Deploy this repository to Streamlit Community Cloud and place the public URL here before submission:
-
 `https://invoice-ai-fraud-detection.streamlit.app/`
 
 ## 1. Project Architecture
@@ -40,11 +38,6 @@ Explainable 0–100 Risk Score
 VERIFIED / REQUIRES REVIEW / HIGH RISK
 
 SQLite demo history <--- seeded from data/synthetic_invoices.csv
-```
-
-The deployment is intentionally a single Streamlit service to reduce operational risk within a 24-hour challenge while still demonstrating data science, explainability, testing, and persistence through a seeded SQLite database.
-
-
 ```
 
 ## 2. How the ML / Risk Model Works
