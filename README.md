@@ -183,7 +183,7 @@ The SQLite database is automatically seeded from the included CSV when the app s
 - model calibration, drift monitoring, and versioning
 - role-based access control and audit logging
 
-## Required Professor Test Cases
+## Required Test Cases
 
 The automated test suite in `tests/test_required_cases.py` covers all five required cases.
 
