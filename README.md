@@ -44,39 +44,10 @@ SQLite demo history <--- seeded from data/synthetic_invoices.csv
 
 The deployment is intentionally a single Streamlit service to reduce operational risk within a 24-hour challenge while still demonstrating data science, explainability, testing, and persistence through a seeded SQLite database.
 
-## 2. Installation
 
-```bash
-python -m venv .venv
-source .venv/bin/activate       # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
 ```
 
-## 3. Run Locally
-
-```bash
-streamlit run app.py
-```
-
-Run tests:
-
-```bash
-PYTHONPATH=. pytest -q
-```
-
-Regenerate synthetic data:
-
-```bash
-PYTHONPATH=. python src/data_generation.py
-```
-
-Regenerate evaluation metrics:
-
-```bash
-PYTHONPATH=. python src/evaluate.py
-```
-
-## 4. How the ML / Risk Model Works
+## 2. How the ML / Risk Model Works
 
 The project uses a **hybrid detection engine** rather than a purely supervised classifier.
 
@@ -94,7 +65,7 @@ Final score bands:
 
 Critical controls use score floors: confirmed duplicate invoices and established-vendor IBAN changes are forced into `HIGH RISK`.
 
-## 5. Features Used for Fraud Detection
+## 3. Features Used for Fraud Detection
 
 The engine uses current invoice fields plus historical vendor context:
 
@@ -115,7 +86,7 @@ The engine uses current invoice fields plus historical vendor context:
 
 All vendor-relative comparisons use invoice history rather than treating an invoice as an isolated row.
 
-## 6. Dataset Generation
+## 4. Dataset Generation
 
 `src/data_generation.py` generates synthetic invoice history with persistent vendor profiles. The repository currently includes **189 invoice records**, exceeding the requested minimum of 100.
 
@@ -145,7 +116,7 @@ PO: PO-5001
 IBAN: DE89370400440532013000
 ```
 
-## 7. Model Selection
+## 5. Model Selection
 
 ### Why not train a Random Forest on synthetic fraud labels?
 
@@ -159,7 +130,7 @@ Instead:
 
 This design prioritises explainability and scientific honesty over an artificially impressive synthetic accuracy score.
 
-## 8. Evaluation Methodology
+## 6. Evaluation Methodology
 
 `src/evaluate.py` evaluates injected synthetic anomalies plus normal re-submissions that use new invoice numbers to avoid trivial duplicate leakage.
 
@@ -177,7 +148,7 @@ These values are **not estimates of production fraud-detection performance**. Th
 
 A false positive delays a legitimate supplier payment and consumes reviewer time. A false negative can allow a suspicious or fraudulent payment to proceed. The engine therefore intentionally prioritises recall for high-consequence deterministic controls such as duplicates and vendor bank-account changes, while keeping less severe indicators in `REQUIRES REVIEW`.
 
-## 9. API Endpoints
+## 7. API Endpoints
 
 This 24-hour submission uses **Streamlit as the application layer** and does not expose a separate REST API. The challenge states the API endpoints are required *if a backend API is built*. The same risk engine is isolated in `src/fraud_engine.py`, so adding FastAPI later is straightforward without changing model logic.
 
@@ -193,7 +164,7 @@ No API keys or secrets are required for this demo.
 
 The SQLite database is automatically seeded from the included CSV when the app starts. On free ephemeral hosting, new user-entered rows are not intended as permanent production storage; the supplied seed dataset remains reproducible.
 
-## 11. Known Limitations
+## 8. Known Limitations
 
 - The dataset is synthetic and anomalies are deliberately over-represented.
 - Synthetic evaluation demonstrates scenario coverage, not production generalisation.
@@ -205,7 +176,7 @@ The SQLite database is automatically seeded from the included CSV when the app s
 - Isolation Forest is trained on a small synthetic history.
 - Risk score is heuristic + anomaly evidence and is not calibrated as fraud probability.
 
-## 12. Future Improvements
+## 9. Future Improvements
 
 - FastAPI service exposing the required REST endpoints
 - managed PostgreSQL database
